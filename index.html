@@ -8,7 +8,7 @@
   </head>
   <body>
     <style>
-      .option {
+      .option div {
         display: grid;
         grid-template-columns: 100px 150px;
         grid-template-rows: auto 50px;
@@ -20,7 +20,7 @@
     </style>
     <div class="option">
       <div>演算記号</div>
-      <select name="operator">
+      <select id="operator">
         <option value="+">＋</option>
         <option value="-">ー</option>
         <option value="*">✕</option>
@@ -28,7 +28,7 @@
         <option value="mix">MIX</option>
       </select>
       <div>桁数①</div>
-      <select name="digit1">
+      <select id="digit1">
         <option value="1">1桁</option>
         <option value="2">2桁</option>
         <option value="3">3桁</option>
@@ -36,7 +36,7 @@
         <option value="5">5桁</option>
       </select>
       <div>桁数②</div>
-      <select name="digit2">
+      <select id="digit2">
         <option value="1">1桁</option>
         <option value="2">2桁</option>
         <option value="3">3桁</option>
@@ -44,7 +44,7 @@
         <option value="5">5桁</option>
       </select>
       <div>問題数</div>
-      <select name="question">
+      <select id="question">
         <option value="10">10問</option>
         <option value="10">20問</option>
         <option value="10">30問</option>
@@ -52,5 +52,8 @@
         <option value="10">50問</option>
       </select>
     </div>
+    <script>
+      
+    </script>
   </body>
 </html>
