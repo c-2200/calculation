@@ -46,14 +46,21 @@
       <div>問題数</div>
       <select id="question">
         <option value="10">10問</option>
-        <option value="10">20問</option>
-        <option value="10">30問</option>
-        <option value="10">40問</option>
-        <option value="10">50問</option>
+        <option value="20">20問</option>
+        <option value="30">30問</option>
+        <option value="40">40問</option>
+        <option value="50">50問</option>
       </select>
     </div>
     <script>
-      
+      const operator = document.getElementById("operator");
+      const digit1 = document.getElementById("digit1");
+      const digit2 = document.getElementById("digit2");
+      const question = document.getElementById("question");
+      const operatorValue = operator.selectedOptions[0].value;
+      const digit1Value = digit1.selectedOptions[0].value;
+      const digit2Value = digit2.selectedOptions[0].value;
+      const questionValue = question.selectedOptions[0].value;
     </script>
   </body>
 </html>
