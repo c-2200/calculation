@@ -8,6 +8,13 @@
   </head>
   <body>
     <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .option {
         display: grid;
         grid-template-columns: 120px 160px;
@@ -26,10 +33,36 @@
         width: 100%;
         padding: 4px;
       }
+      .button {
+        display: grid;
+        grid-template-columns: 100px 100px;
+      }
+      .startButton {
+        width: 100px;
+        height: 50px;
+        background-color: #ff8888;
+        color: black;
+        font-size: 22px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .recordButton {
+        width: 100px;
+        height: 50px;
+        background-color: yellow;
+        color: black;
+        font-size: 22px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
     <div class="option">
       <div class="label">演算記号</div>
-      <select id="operator">
+      <select id="operator" class="info">
         <option value="+">＋</option>
         <option value="-">ー</option>
         <option value="*">✕</option>
@@ -37,7 +70,7 @@
         <option value="mix">MIX</option>
       </select>
       <div class="label">桁数①</div>
-      <select id="digit1">
+      <select id="digit1" class="info">
         <option value="1">1桁</option>
         <option value="2">2桁</option>
         <option value="3">3桁</option>
@@ -45,7 +78,7 @@
         <option value="5">5桁</option>
       </select>
       <div class="label">桁数②</div>
-      <select id="digit2">
+      <select id="digit2" class="info">
         <option value="1">1桁</option>
         <option value="2">2桁</option>
         <option value="3">3桁</option>
@@ -53,7 +86,7 @@
         <option value="5">5桁</option>
       </select>
       <div class="label">問題数</div>
-      <select id="question">
+      <select id="question" class="info">
         <option value="10">10問</option>
         <option value="20">20問</option>
         <option value="30">30問</option>
@@ -61,15 +94,30 @@
         <option value="50">50問</option>
       </select>
     </div>
+    <div class="button">
+      <button class="startButton" id="startButton">START</button>
+      <button class="recordButton" id="recordButton">RECORD</button>
+    </div>
     <script>
       const operator = document.getElementById("operator");
       const digit1 = document.getElementById("digit1");
       const digit2 = document.getElementById("digit2");
       const question = document.getElementById("question");
-      const operatorValue = operator.selectedOptions[0].value;
-      const digit1Value = digit1.selectedOptions[0].value;
-      const digit2Value = digit2.selectedOptions[0].value;
-      const questionValue = question.selectedOptions[0].value;
+      const info = {
+        operator: operator.selectedOptions[0].value, digit1: digit1.selectedOptions[0].value,
+        digit2: digit2.selectedOptions[0].value, question: question.selectedOptions[0].value
+      };
+      function onInfoChange(e) {
+        const select = e.target;
+        const id = select.id;
+        let value = select.value;
+        if (id == "digit1" || id == "digit2" || id == "question") value = Number(value);
+        info[id] = value;
+      }
+      const selects = document.querySelectorAll(".info");
+      selects.forEach(select => {
+        select.addEventListener("change", onInfoChange)
+      })
     </script>
   </body>
 </html>
