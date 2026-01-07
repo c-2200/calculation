@@ -22,7 +22,12 @@
         gap: 24px;
       }
       .caution {
-        
+        display: grid;
+        grid-template-columns: 300px;
+        width: fit-content;
+        border: 1px solid #333;
+        border-radius: 6px;
+        background-color: #fafafa;
       }
       .option {
         display: grid;
@@ -47,7 +52,7 @@
         gap: 16px;
       }
       .startButton {
-        width: 100px;
+        width: 120px;
         height: 50px;
         background-color: #ff8888;
         color: black;
@@ -58,7 +63,7 @@
         cursor: pointer;
       }
       .recordButton {
-        width: 100px;
+        width: 120px;
         height: 50px;
         background-color: yellow;
         color: black;
@@ -70,6 +75,9 @@
       }
     </style>
     <div class="container">
+      <div class="caution">
+        <p>割り算で分数が出てくることがあります。<br>例：6÷15　⇒　2/3　と入力してください</p>
+      </div>
       <div class="option">
         <div class="label">演算記号</div>
         <select id="operator" class="info">
