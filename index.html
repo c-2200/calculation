@@ -15,6 +15,12 @@
         justify-content: center;
         align-items: center;
       }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
       .option {
         display: grid;
         grid-template-columns: 120px 160px;
@@ -34,8 +40,8 @@
         padding: 4px;
       }
       .button {
-        display: grid;
-        grid-template-columns: 100px 100px;
+        display: flex;
+        gap: 16px;
       }
       .startButton {
         width: 100px;
@@ -60,43 +66,45 @@
         cursor: pointer;
       }
     </style>
-    <div class="option">
-      <div class="label">演算記号</div>
-      <select id="operator" class="info">
-        <option value="+">＋</option>
-        <option value="-">ー</option>
-        <option value="*">✕</option>
-        <option value="/">÷</option>
-        <option value="mix">MIX</option>
-      </select>
-      <div class="label">桁数①</div>
-      <select id="digit1" class="info">
-        <option value="1">1桁</option>
-        <option value="2">2桁</option>
-        <option value="3">3桁</option>
-        <option value="4">4桁</option>
-        <option value="5">5桁</option>
-      </select>
-      <div class="label">桁数②</div>
-      <select id="digit2" class="info">
-        <option value="1">1桁</option>
-        <option value="2">2桁</option>
-        <option value="3">3桁</option>
-        <option value="4">4桁</option>
-        <option value="5">5桁</option>
-      </select>
-      <div class="label">問題数</div>
-      <select id="question" class="info">
-        <option value="10">10問</option>
-        <option value="20">20問</option>
-        <option value="30">30問</option>
-        <option value="40">40問</option>
-        <option value="50">50問</option>
-      </select>
-    </div>
-    <div class="button">
-      <button class="startButton" id="startButton">START</button>
-      <button class="recordButton" id="recordButton">RECORD</button>
+    <div class="container">
+      <div class="option">
+        <div class="label">演算記号</div>
+        <select id="operator" class="info">
+          <option value="+">＋</option>
+          <option value="-">ー</option>
+          <option value="*">✕</option>
+          <option value="/">÷</option>
+          <option value="mix">MIX</option>
+        </select>
+        <div class="label">桁数①</div>
+        <select id="digit1" class="info">
+          <option value="1">1桁</option>
+          <option value="2">2桁</option>
+          <option value="3">3桁</option>
+          <option value="4">4桁</option>
+          <option value="5">5桁</option>
+        </select>
+        <div class="label">桁数②</div>
+        <select id="digit2" class="info">
+          <option value="1">1桁</option>
+          <option value="2">2桁</option>
+          <option value="3">3桁</option>
+          <option value="4">4桁</option>
+          <option value="5">5桁</option>
+        </select>
+        <div class="label">問題数</div>
+        <select id="question" class="info">
+          <option value="10">10問</option>
+          <option value="20">20問</option>
+          <option value="30">30問</option>
+          <option value="40">40問</option>
+          <option value="50">50問</option>
+        </select>
+      </div>
+      <div class="button">
+        <button class="startButton" id="startButton">START</button>
+        <button class="recordButton" id="recordButton">RECORD</button>
+      </div>
     </div>
     <script>
       const operator = document.getElementById("operator");
