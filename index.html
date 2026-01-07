@@ -10,12 +10,25 @@
     <style>
       .option {
         display: grid;
-        grid-template-columns: 100px 150px;
-        grid-template-rows: auto 50px;
-        font-size: justify-content: center;
-        border: 1px solid black;
-        align-items: center;
-        justify-content: center;
+        grid-template-columns: 120px 160px;
+        gap: 12px 20px;
+      
+        width: fit-content;
+        padding: 16px 24px;
+        border: 1px solid #333;
+        border-radius: 6px;
+      
+        background-color: #fafafa;
+      }
+      
+      .option .label {
+        text-align: right;
+        font-weight: bold;
+      }
+      
+      .option select {
+        width: 100%;
+        padding: 4px;
       }
     </style>
     <div class="option">
