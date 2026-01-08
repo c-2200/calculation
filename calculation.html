@@ -53,6 +53,41 @@
       </div>
     </div>
     <script>
-      
+      const info = JSON.parse(localStorage.getItem("calcSettings"));
+      let operator = info.operator;
+      const digit1 = Number(info.digit1);
+      const digit2 = Number(info.digit2);
+      const question = Number(info.question);
+      for (let i = 1; i < question; i++) {
+        document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
+        const max1 = 10 ** (digit1 - 1);
+        const min1 = 10 ** digit1 - 1;
+        const number1 = Math.floor(Math.random() * (max1 - min1 + 1)) + min1;
+        const max2 = 10 ** (digit2 - 1);
+        const min2 = 10 ** digit2 - 1;
+        const number2 = Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
+        if (operator == "mix") {
+          const items = ["+", "-", "*", "/"];
+          operator = items[Math.floor(Math.random() * items.length)];
+        }
+        if (operator == "+") {
+          answer = String(number1 + number2);
+        } else if (operator == "-") {
+          answer = String(number1 - number2);
+        } else if (operator == "*") {
+          answer = String(number1 * number2);
+        } else if (operator == "/") {
+          function division(numerator, denominator) {
+            const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+            const g = gcd(numerator, denominator);
+            return `${numerator / g}/${denominator / g}`;
+          }
+          if (number1 % number2 !== 0) {
+            answer = division(number1, number2);
+          } else {
+            answer = String(number1 / number2);
+          }
+        }
+      }
     </script>
   </body>
