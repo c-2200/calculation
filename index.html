@@ -137,6 +137,7 @@
         select.addEventListener("change", onInfoChange)
       });
       document.getElementById("startButton").onclick = () => {
+        localStorage.setItem("calcSettings", JSON.stringify(info));
         location.href = "calculation.html";
       };
       document.getElementById("recordButton").onclick = () => {
