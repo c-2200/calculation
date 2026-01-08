@@ -54,6 +54,7 @@
       .keybord button {
         width: 105px;
         height: 40px;
+        font-size: 30px;
       }
     </style>
     <div class="questionContainer">
@@ -72,9 +73,10 @@
         <button id="5">5</button>
         <button id="6">6</button>
         <button id="/">/</button>
-        <button id="">7</button>
+        <button id="7">7</button>
         <button id="8">8</button>
         <button id="9">9</button>
+        <button id="backspace">←</button>
         <div></div>
         <button id="0">0</button>
       </div>
@@ -85,6 +87,7 @@
       const digit1 = Number(info.digit1);
       const digit2 = Number(info.digit2);
       const question = Number(info.question);
+      let response = "";
       for (let i = 1; i < question; i++) {
         document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
         const max1 = 10 ** (digit1 - 1);
