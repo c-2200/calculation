@@ -83,12 +83,13 @@
     </div>
     <script>
       const info = JSON.parse(localStorage.getItem("calcSettings"));
-      let operator = info.operator;
       const digit1 = Number(info.digit1);
       const digit2 = Number(info.digit2);
       const question = Number(info.question);
+      const questionText = document.getElementById("questionText");
       let response = "";
       for (let i = 1; i < question; i++) {
+        let operator = info.operator;
         document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
         const max1 = 10 ** (digit1 - 1);
         const min1 = 10 ** digit1 - 1;
@@ -101,10 +102,13 @@
           operator = items[Math.floor(Math.random() * items.length)];
         }
         if (operator == "+") {
+          questionText.textContent = `${number1} ＋ ${number2}`;
           answer = String(number1 + number2);
         } else if (operator == "-") {
+          questionText.textContent = `${number1} ー ${number2}`;
           answer = String(number1 - number2);
         } else if (operator == "*") {
+          questionText.textContent = `${number1} ✕ ${number2}`;
           answer = String(number1 * number2);
         } else if (operator == "/") {
           function division(numerator, denominator) {
@@ -117,8 +121,9 @@
           } else {
             answer = String(number1 / number2);
           }
+          questionText.textContent = `${number1} ÷ ${number2}`;
         }
-        
+        //数字ボタン管理
       }
     </script>
   </body>
