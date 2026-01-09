@@ -88,43 +88,67 @@
       const question = Number(info.question);
       const questionText = document.getElementById("questionText");
       const keyboard = document.querySelector(".keyboard");
-      let response = "";
-      for (let i = 1; i <= question; i++) {
-        let operator = info.operator;
-        document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
-        const min1 = 10 ** (digit1 - 1);
-        const max1 = 10 ** digit1 - 1;
-        const number1 = Math.floor(Math.random() * (max1 - min1 + 1)) + min1;
-        const min2 = 10 ** (digit2 - 1);
-        const max2 = 10 ** digit2 - 1;
-        const number2 = Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
-        if (operator == "mix") {
-          const items = ["+", "-", "*", "/"];
-          operator = items[Math.floor(Math.random() * items.length)];
-        }
-        if (operator == "+") {
-          questionText.textContent = `${number1} ＋ ${number2}`;
-          const answer = String(number1 + number2);
-        } else if (operator == "-") {
-          questionText.textContent = `${number1} ー ${number2}`;
-          const answer = String(number1 - number2);
-        } else if (operator == "*") {
-          questionText.textContent = `${number1} ✕ ${number2}`;
-          const answer = String(number1 * number2);
-        } else if (operator == "/") {
-          function division(numerator, denominator) {
-            const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-            const g = gcd(numerator, denominator);
-            return `${numerator / g}/${denominator / g}`;
+      
+      function answerCheck(correct) {
+        return new Promise(resolve => {
+          const answer = document.getElementById("answer");
+          if (answer.textContent == correct) {
+            resolve();
+            return;
           }
-          if (number1 % number2 !== 0) {
-            const answer = division(number1, number2);
-          } else {
-            const answer = String(number1 / number2);
-          }
-          questionText.textContent = `${number1} ÷ ${number2}`;
-        }
+          const observer = new MutationObserver(() => {
+            if (answer.textContent == correct) {
+              observer.disconnect();
+              resolve();
+            }
+          });
+          observer.observe(answer, {
+            childList: true,
+            characterData: true,
+            subtree: true
+          });
+        });
       }
+      (async () => {
+        for (let i = 1; i <= question; i++) {
+          let operator = info.operator;
+          document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
+          const min1 = 10 ** (digit1 - 1);
+          const max1 = 10 ** digit1 - 1;
+          const number1 = Math.floor(Math.random() * (max1 - min1 + 1)) + min1;
+          const min2 = 10 ** (digit2 - 1);
+          const max2 = 10 ** digit2 - 1;
+          const number2 = Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
+          let answer;
+          if (operator == "mix") {
+            const items = ["+", "-", "*", "/"];
+            operator = items[Math.floor(Math.random() * items.length)];
+          }
+          if (operator == "+") {
+            questionText.textContent = `${number1} ＋ ${number2}`;
+            answer = String(number1 + number2);
+          } else if (operator == "-") {
+            questionText.textContent = `${number1} ー ${number2}`;
+            answer = String(number1 - number2);
+          } else if (operator == "*") {
+            questionText.textContent = `${number1} ✕ ${number2}`;
+            answer = String(number1 * number2);
+          } else if (operator == "/") {
+            function division(numerator, denominator) {
+              const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+              const g = gcd(numerator, denominator);
+              return `${numerator / g}/${denominator / g}`;
+            }
+            if (number1 % number2 !== 0) {
+              answer = division(number1, number2);
+            } else {
+              answer = String(number1 / number2);
+            }
+            questionText.textContent = `${number1} ÷ ${number2}`;
+          }
+          await answerCheck(answer);
+        }
+      })();
       keyboard.addEventListener("click", (e) => {
         if (e.target.tagName !== "BUTTON") return;
         const id = e.target.id;
