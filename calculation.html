@@ -87,6 +87,7 @@
       const digit2 = Number(info.digit2);
       const question = Number(info.question);
       const questionText = document.getElementById("questionText");
+      const keyboard = document.querySelector(".keyboard");
       let response = "";
       for (let i = 1; i < question; i++) {
         let operator = info.operator;
@@ -123,7 +124,36 @@
           }
           questionText.textContent = `${number1} ÷ ${number2}`;
         }
-        //数字ボタン管理
+        keyboard.addEventListener("click", (e) => {
+          if (e.target.tagName !== "BUTTON") return;
+          const id = e.target.id;
+          const answer = document.getElementById("answer");
+          switch (id) {
+            case "backspace":
+              document.getElementById("answer").textContent = document.getElementById("answer").textContent.slice(0, -1);
+              break;
+            case "-":
+              if (document.getElementById("answer").textContent == "") {
+                document.getElementById("answer").textContent = "-";
+                break;
+              } else {
+                break;
+              }
+            case "/":
+              if (answer.textContent.includes("/") || answer.textContent == "") {
+                break;
+              } else {
+                document.getElementById("answer").textContent += "/";
+                break;
+              }
+            default:
+              if (answer.textContent == "" && id == "0") {
+                break;
+              } else {
+                answer.textContent += id
+              }
+          }
+        });
       }
     </script>
   </body>
