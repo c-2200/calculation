@@ -33,15 +33,20 @@
         margin: 20px 0 30px;
       }
       .answer {
-        width: 200px;
-        font-size: 24px;
-        padding: 8px;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        font-size: 32px;
       }
       .answerbox {
-        width: 140px;
-        height: 50px;
-        border: 3px solid #000;
+        min-width: 120px;
+        height: 48px;
+        border: 2px solid #000;
+        text-align: right;
+        padding: 5px 10px;
+        font-size: 32px;
+        box-sizing: border-box;
       }
       .keyboard {
         display: grid;
@@ -147,6 +152,7 @@
             questionText.textContent = `${number1} ÷ ${number2}`;
           }
           await answerCheck(answer);
+          document.getElementById("answer").textContent = "";
         }
       })();
       keyboard.addEventListener("click", (e) => {
