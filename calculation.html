@@ -153,11 +153,11 @@
           }
           await answerCheck(answer);
           document.getElementById("answer").textContent = "";
+          location.href = "index.html";
         }
       })();
-      keyboard.addEventListener("click", (e) => {
-        if (e.target.tagName !== "BUTTON") return;
-        const id = e.target.id;
+
+      function handleInput(id) {
         const answer = document.getElementById("answer");
         switch (id) {
           case "backspace":
@@ -183,6 +183,23 @@
             } else {
               answer.textContent += id
             }
+        }
+      }
+      keyboard.addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return;
+        handleInput(e.target.id)
+      });
+      document.addEventListener("keydown", (e) => {
+        const keyMap = {
+          "Backspace": "backspace", "Escape": "pause", "-": "-", "/": "/"
+        };
+        if ("0" <= e.key && e.key <= "9") {
+          handleInput(e.target.id);
+          return;
+        }
+        if (keyMap[e.key]) {
+          e.preventDefault();
+          handleInput(keyMap[e.key]);
         }
       });
     </script>
