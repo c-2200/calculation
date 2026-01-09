@@ -104,13 +104,13 @@
         }
         if (operator == "+") {
           questionText.textContent = `${number1} ＋ ${number2}`;
-          answer = String(number1 + number2);
+          const answer = String(number1 + number2);
         } else if (operator == "-") {
           questionText.textContent = `${number1} ー ${number2}`;
-          answer = String(number1 - number2);
+          const answer = String(number1 - number2);
         } else if (operator == "*") {
           questionText.textContent = `${number1} ✕ ${number2}`;
-          answer = String(number1 * number2);
+          const answer = String(number1 * number2);
         } else if (operator == "/") {
           function division(numerator, denominator) {
             const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
@@ -118,9 +118,9 @@
             return `${numerator / g}/${denominator / g}`;
           }
           if (number1 % number2 !== 0) {
-            answer = division(number1, number2);
+            const answer = division(number1, number2);
           } else {
-            answer = String(number1 / number2);
+            const answer = String(number1 / number2);
           }
           questionText.textContent = `${number1} ÷ ${number2}`;
         }
