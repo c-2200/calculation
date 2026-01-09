@@ -91,11 +91,11 @@
       for (let i = 1; i < question; i++) {
         let operator = info.operator;
         document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
-        const max1 = 10 ** (digit1 - 1);
-        const min1 = 10 ** digit1 - 1;
+        const min1 = 10 ** (digit1 - 1);
+        const max1 = 10 ** digit1 - 1;
         const number1 = Math.floor(Math.random() * (max1 - min1 + 1)) + min1;
-        const max2 = 10 ** (digit2 - 1);
-        const min2 = 10 ** digit2 - 1;
+        const min2 = 10 ** (digit2 - 1);
+        const max2 = 10 ** digit2 - 1;
         const number2 = Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
         if (operator == "mix") {
           const items = ["+", "-", "*", "/"];
