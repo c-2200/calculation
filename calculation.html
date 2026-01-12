@@ -16,6 +16,25 @@
         align-items: center;
         background-color: #f2f2f2;
       }
+      .pause-button {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 40px;
+        height: 32px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+      
+      .pause-button span {
+        display: block;
+        width: 100%;
+        height: 4px;
+        background-color: #000;
+        margin: 6px 0;
+      }
       .questionContainer {
         width: 420px;
         padding: 32px;
@@ -62,6 +81,11 @@
         font-size: 30px;
       }
     </style>
+    <button class="pause-button" aria-label="pause">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="questionContainer">
       <div class="questionStatus" id="questionStatus"></div>
       <div class="questionText" id="questionText"></div>
@@ -152,8 +176,10 @@
             questionText.textContent = `${number1} ÷ ${number2}`;
           }
           await answerCheck(answer);
-          document.getElementById("answer").textContent = "";
-          location.href = "index.html";
+          if (i == question) {
+            document.getElementById("answer").textContent = "";
+            location.href = "index.html";
+          }
         }
       })();
 
