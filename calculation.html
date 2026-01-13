@@ -1,232 +1,299 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>計算練習</title>
-  </head>
-  <body>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #f2f2f2;
-      }
-      .pause-button {
-        position: fixed;
-        top: 16px;
-        left: 16px;
-        width: 40px;
-        height: 32px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-      }
-      
-      .pause-button span {
-        display: block;
-        width: 100%;
-        height: 4px;
-        background-color: #000;
-        margin: 6px 0;
-      }
-      .questionContainer {
-        width: 420px;
-        padding: 32px;
-        background-color: #ffffff;
-        text-align: center;
-      }
-      .questionStatus {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 20px;
-      }
-      .questionText {
-        font-size: 40px;
-        font-weight: bold;
-        margin: 20px 0 30px;
-      }
-      .answer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-        font-size: 32px;
-      }
-      .answerbox {
-        min-width: 120px;
-        height: 48px;
-        border: 2px solid #000;
-        text-align: right;
-        padding: 5px 10px;
-        font-size: 32px;
-        box-sizing: border-box;
-      }
-      .keyboard {
-        display: grid;
-        grid-template-columns: 105px 105px 105px 105px;
-        grid-templaye-rows: 40px 40px 40px 40px;
-        font-size: 30px;
-        border: 1px
-        background-color: #ffffff;
-      }
-      .keybord button {
-        width: 105px;
-        height: 40px;
-        font-size: 30px;
-      }
-    </style>
-    <button class="pause-button" aria-label="pause">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div class="questionContainer">
-      <div class="questionStatus" id="questionStatus"></div>
-      <div class="questionText" id="questionText"></div>
-      <div class="answer">
-        <div>＝</div>
-        <div class="answerBox" id="answer"></div>
-      </div>
-      <div class="keyboard">
-        <button id="1">1</button>
-        <button id="2">2</button>
-        <button id="3">3</button>
-        <button id="-">-</button>
-        <button id="4">4</button>
-        <button id="5">5</button>
-        <button id="6">6</button>
-        <button id="/">/</button>
-        <button id="7">7</button>
-        <button id="8">8</button>
-        <button id="9">9</button>
-        <button id="backspace">←</button>
-        <div></div>
-        <button id="0">0</button>
-      </div>
-    </div>
-    <script>
-      const info = JSON.parse(localStorage.getItem("calcSettings"));
-      const digit1 = Number(info.digit1);
-      const digit2 = Number(info.digit2);
-      const question = Number(info.question);
-      const questionText = document.getElementById("questionText");
-      const keyboard = document.querySelector(".keyboard");
-      
-      function answerCheck(correct) {
-        return new Promise(resolve => {
-          const answer = document.getElementById("answer");
-          if (answer.textContent == correct) {
-            resolve();
-            return;
-          }
-          const observer = new MutationObserver(() => {
-            if (answer.textContent == correct) {
-              observer.disconnect();
-              resolve();
-            }
-          });
-          observer.observe(answer, {
-            childList: true,
-            characterData: true,
-            subtree: true
-          });
-        });
-      }
-      (async () => {
-        for (let i = 1; i <= question; i++) {
-          let operator = info.operator;
-          document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`
-          const min1 = 10 ** (digit1 - 1);
-          const max1 = 10 ** digit1 - 1;
-          const number1 = Math.floor(Math.random() * (max1 - min1 + 1)) + min1;
-          const min2 = 10 ** (digit2 - 1);
-          const max2 = 10 ** digit2 - 1;
-          const number2 = Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
-          let answer;
-          if (operator == "mix") {
-            const items = ["+", "-", "*", "/"];
-            operator = items[Math.floor(Math.random() * items.length)];
-          }
-          if (operator == "+") {
-            questionText.textContent = `${number1} ＋ ${number2}`;
-            answer = String(number1 + number2);
-          } else if (operator == "-") {
-            questionText.textContent = `${number1} ー ${number2}`;
-            answer = String(number1 - number2);
-          } else if (operator == "*") {
-            questionText.textContent = `${number1} ✕ ${number2}`;
-            answer = String(number1 * number2);
-          } else if (operator == "/") {
-            function division(numerator, denominator) {
-              const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-              const g = gcd(numerator, denominator);
-              return `${numerator / g}/${denominator / g}`;
-            }
-            if (number1 % number2 !== 0) {
-              answer = division(number1, number2);
-            } else {
-              answer = String(number1 / number2);
-            }
-            questionText.textContent = `${number1} ÷ ${number2}`;
-          }
-          await answerCheck(answer);
-          document.getElementById("answer").textContent = "";
-          if (i == question) {
-            location.href = "index.html";
-          }
-        }
-      })();
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>計算練習</title>
 
-      function handleInput(id) {
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f2f2f2;
+    }
+
+    /* ポーズボタン */
+    .pause-button {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      width: 40px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1100;
+    }
+
+    .pause-button span {
+      display: block;
+      width: 100%;
+      height: 4px;
+      background-color: #000;
+      margin: 6px 0;
+    }
+
+    .questionContainer {
+      width: 420px;
+      padding: 32px;
+      background-color: #ffffff;
+      text-align: center;
+    }
+
+    .questionStatus {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .questionText {
+      font-size: 40px;
+      font-weight: bold;
+      margin: 20px 0 30px;
+    }
+
+    .answer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      font-size: 32px;
+    }
+
+    .answerBox {
+      min-width: 120px;
+      height: 48px;
+      border: 2px solid #000;
+      text-align: right;
+      padding: 5px 10px;
+      font-size: 32px;
+      box-sizing: border-box;
+    }
+
+    .keyboard {
+      display: grid;
+      grid-template-columns: repeat(4, 105px);
+      gap: 4px;
+      margin-top: 20px;
+    }
+
+    .keyboard button {
+      width: 105px;
+      height: 40px;
+      font-size: 24px;
+    }
+
+    /* ポーズ画面 */
+    .pause-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .pause-overlay.hidden {
+      display: none;
+    }
+
+    .pause-modal {
+      background: #fff;
+      padding: 32px;
+      width: 260px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .pause-time {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .pause-modal button {
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ポーズボタン -->
+  <button class="pause-button" id="pause" aria-label="pause">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- メイン画面 -->
+  <div class="questionContainer">
+    <div class="questionStatus" id="questionStatus"></div>
+    <div class="questionText" id="questionText"></div>
+
+    <div class="answer">
+      <div>＝</div>
+      <div class="answerBox" id="answer"></div>
+    </div>
+
+    <div class="keyboard">
+      <button id="1">1</button>
+      <button id="2">2</button>
+      <button id="3">3</button>
+      <button id="-">-</button>
+      <button id="4">4</button>
+      <button id="5">5</button>
+      <button id="6">6</button>
+      <button id="/">/</button>
+      <button id="7">7</button>
+      <button id="8">8</button>
+      <button id="9">9</button>
+      <button id="backspace">←</button>
+      <div></div>
+      <button id="0">0</button>
+    </div>
+  </div>
+
+  <!-- ポーズ画面 -->
+  <div id="pauseOverlay" class="pause-overlay hidden">
+    <div class="pause-modal">
+      <div id="pauseTime" class="pause-time">00:00</div>
+      <button id="homeBtn">HOME</button>
+      <button id="retryBtn">RETRY</button>
+      <button id="returnBtn">RETURN</button>
+    </div>
+  </div>
+
+  <script>
+    const info = JSON.parse(localStorage.getItem("calcSettings")) || {
+      digit1: 1,
+      digit2: 1,
+      question: 5,
+      operator: "+"
+    };
+
+    const digit1 = Number(info.digit1);
+    const digit2 = Number(info.digit2);
+    const question = Number(info.question);
+    const questionText = document.getElementById("questionText");
+    const keyboard = document.querySelector(".keyboard");
+
+    let isPaused = false;
+    let elapsedSeconds = 0;
+
+    /* タイマー */
+    setInterval(() => {
+      if (!isPaused) elapsedSeconds++;
+    }, 1000);
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function pauseGame() {
+      if (isPaused) return;
+      isPaused = true;
+      document.getElementById("pauseTime").textContent = formatTime(elapsedSeconds);
+      document.getElementById("pauseOverlay").classList.remove("hidden");
+    }
+
+    function resumeGame() {
+      isPaused = false;
+      document.getElementById("pauseOverlay").classList.add("hidden");
+    }
+
+    document.getElementById("pause").addEventListener("click", pauseGame);
+    document.getElementById("returnBtn").addEventListener("click", resumeGame);
+    document.getElementById("homeBtn").addEventListener("click", () => location.href = "index.html");
+    document.getElementById("retryBtn").addEventListener("click", () => location.reload());
+
+    function answerCheck(correct) {
+      return new Promise(resolve => {
         const answer = document.getElementById("answer");
-        switch (id) {
-          case "backspace":
-            document.getElementById("answer").textContent = document.getElementById("answer").textContent.slice(0, -1);
-            break;
-          case "-":
-            if (document.getElementById("answer").textContent == "") {
-              document.getElementById("answer").textContent = "-";
-              break;
-            } else {
-              break;
-            }
-          case "/":
-            if (answer.textContent.includes("/") || answer.textContent == "") {
-              break;
-            } else {
-              document.getElementById("answer").textContent += "/";
-              break;
-            }
-          default:
-            if (answer.textContent == "" && id == "0") {
-              break;
-            } else {
-              answer.textContent += id
-            }
-        }
-      }
-      keyboard.addEventListener("click", (e) => {
-        if (e.target.tagName !== "BUTTON") return;
-        handleInput(e.target.id)
-      });
-      document.addEventListener("keydown", (e) => {
-        const keyMap = {
-          "Backspace": "backspace", "Escape": "pause", "-": "-", "/": "/"
-        };
-        if (0 <= Number(e.key) && Number(e.key) <= 9) {
-          handleInput(e.target.id);
+        if (answer.textContent === correct) {
+          resolve();
           return;
         }
-        if (keyMap[e.key]) {
-          e.preventDefault();
-          handleInput(keyMap[e.key]);
-        }
+        const observer = new MutationObserver(() => {
+          if (answer.textContent === correct) {
+            observer.disconnect();
+            resolve();
+          }
+        });
+        observer.observe(answer, { childList: true, characterData: true, subtree: true });
       });
-    </script>
-  </body>
+    }
+
+    (async () => {
+      for (let i = 1; i <= question; i++) {
+        document.getElementById("questionStatus").textContent = `第 ${i}/${question} 問目`;
+
+        const n1 = Math.floor(Math.random() * 9) + 1;
+        const n2 = Math.floor(Math.random() * 9) + 1;
+
+        questionText.textContent = `${n1} ＋ ${n2}`;
+        const correct = String(n1 + n2);
+
+        await answerCheck(correct);
+        document.getElementById("answer").textContent = "";
+      }
+      location.href = "index.html";
+    })();
+
+    function handleInput(id) {
+      if (isPaused) return;
+      const answer = document.getElementById("answer");
+
+      switch (id) {
+        case "backspace":
+          answer.textContent = answer.textContent.slice(0, -1);
+          break;
+        case "-":
+          if (answer.textContent === "") answer.textContent = "-";
+          break;
+        case "/":
+          if (!answer.textContent.includes("/") && answer.textContent !== "") {
+            answer.textContent += "/";
+          }
+          break;
+        default:
+          if (answer.textContent === "" && id === "0") return;
+          answer.textContent += id;
+      }
+    }
+
+    keyboard.addEventListener("click", e => {
+      if (e.target.tagName === "BUTTON") handleInput(e.target.id);
+    });
+
+    document.addEventListener("keydown", e => {
+      const map = {
+        Backspace: "backspace",
+        Escape: "pause",
+        "-": "-",
+        "/": "/"
+      };
+
+      if (e.key >= "0" && e.key <= "9") handleInput(e.key);
+      if (map[e.key]) {
+        e.preventDefault();
+        if (map[e.key] === "pause") pauseGame();
+        else handleInput(map[e.key]);
+      }
+    });
+  </script>
+</body>
+</html>
