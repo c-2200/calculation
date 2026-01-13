@@ -176,8 +176,8 @@
             questionText.textContent = `${number1} ÷ ${number2}`;
           }
           await answerCheck(answer);
+          document.getElementById("answer").textContent = "";
           if (i == question) {
-            document.getElementById("answer").textContent = "";
             location.href = "index.html";
           }
         }
@@ -219,7 +219,7 @@
         const keyMap = {
           "Backspace": "backspace", "Escape": "pause", "-": "-", "/": "/"
         };
-        if ("0" <= e.key && e.key <= "9") {
+        if (0 <= Number(e.key) && Number(e.key) <= 9) {
           handleInput(e.target.id);
           return;
         }
